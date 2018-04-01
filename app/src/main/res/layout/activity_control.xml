@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.legendpeng.controlcar.ControlActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="@string/show"
+        android:textSize="30dp"
+        android:id="@+id/textView5" />
+
+    <Button
+        android:id="@+id/btn_abort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/stop" />
+
+    <ImageButton
+        android:id="@+id/ib_up"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_below="@+id/textView5"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="18dp"
+        android:layout_toLeftOf="@+id/textView5"
+        android:layout_toStartOf="@+id/textView5"
+        android:background="@drawable/control_background"
+        android:src="@drawable/pointer" />
+
+    <ImageButton
+        android:id="@+id/ib_left"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/ib_right"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@+id/btn_abort"
+        android:layout_toStartOf="@+id/btn_abort"
+        android:background="@drawable/control_background"
+        android:src="@drawable/pointer_left" />
+
+    <ImageButton
+        android:id="@+id/ib_down"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+
+        android:layout_alignLeft="@+id/ib_up"
+        android:layout_alignStart="@+id/ib_up"
+        android:layout_below="@+id/ib_up"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/control_background"
+        android:src="@drawable/pointer_down" />
+
+    <ImageButton
+        android:id="@+id/ib_right"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_alignBottom="@+id/ib_down"
+        android:layout_alignLeft="@+id/btn_abort"
+        android:layout_alignStart="@+id/btn_abort"
+        android:layout_marginBottom="51dp"
+        android:background="@drawable/control_background"
+        android:src="@drawable/pointer_right" />
+</RelativeLayout>

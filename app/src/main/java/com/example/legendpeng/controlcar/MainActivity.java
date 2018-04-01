@@ -10,42 +10,43 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
-    private Button check_wifi,open_wifi,close_wifi,scan_wifi;
+
+    //初始化ToggleButton
+    private ToggleButton tb_switch;
+    //初始化ListView
+    private ListView lv_wifi;
+    //初始化button
+    private Button btn_start;
+
+    //ListView中的内容
+    private String[] data = { "Apple", "Banana", "Orange", "Watermelon",
+            "Pear", "Grape", "Pineapple", "Strawberry", "Cherry", "Mango" };
+
+
     private ListView mlistView;
     protected WifiAdmin mWifiAdmin;
     private List<ScanResult> mWifiList;
@@ -58,8 +59,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //初始化list view
+        //设置ListView的具体内容 (若按下ToggleButton，就将数组中的数据放入listview）
+//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//                MainActivity.this, android.R.layout.simple_list_item_1, data);
+//        lv_wifi = (ListView)findViewById(R.id.lv_wifi);
+
+
         mWifiAdmin = new WifiAdmin(MainActivity.this);
+
+
+
         initViews();
+//        //设置ToggleButton监听事件
+//        btn_start=(Button) findViewById(R.id.btn_start);
+//        btn_start.setOnClickListener((View.OnClickListener)MainActivity.this);
+//        btn_start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this,"Connecting...",Toast.LENGTH_LONG).show();
+//                //跳转到ControlActivity
+//                Intent intent =new Intent(MainActivity.this,ControlActivity.class);
+//                //启动
+//                startActivity(intent);
+//            }
+//        });
+//        //设置button的监听事件
+//        tb_switch=(ToggleButton)findViewById(R.id.tb_switch);
+//        tb_switch.setOnFocusChangeListener((View.OnFocusChangeListener) MainActivity.this);
+
         IntentFilter filter = new IntentFilter(
                 WifiManager.NETWORK_STATE_CHANGED_ACTION);
         //="android.net.wifi.STATE_CHANGE"  监听wifi状态的变化
@@ -106,50 +135,77 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-     * 控件初始化
+     * init the control button, find the button in xml,and set listener.the button include a button
+     * and a togglebutton
      * */
     private void initViews() {
-        check_wifi=(Button) findViewById(R.id.check_wifi);
-        open_wifi=(Button) findViewById(R.id.open_wifi);
-        close_wifi=(Button) findViewById(R.id.close_wifi);
-        scan_wifi=(Button) findViewById(R.id.scan_wifi);
-        mlistView=(ListView) findViewById(R.id.list);
-        check_wifi.setOnClickListener((View.OnClickListener) MainActivity.this);
-        open_wifi.setOnClickListener((View.OnClickListener) MainActivity.this);
-        close_wifi.setOnClickListener((View.OnClickListener) MainActivity.this);
-        scan_wifi.setOnClickListener((View.OnClickListener) MainActivity.this);
+        //设置ToggleButton监听事件
+        btn_start=(Button) findViewById(R.id.btn_start);
+        btn_start.setOnClickListener((View.OnClickListener)MainActivity.this);
+        //设置button的监听事件
+        tb_switch=(ToggleButton)findViewById(R.id.tb_switch);
+        tb_switch.setOnFocusChangeListener((View.OnFocusChangeListener) MainActivity.this);
+
     }
 
-
-    public void onClick(View v) {
+// do what when button click. the btn_start is start the control UI. the tb_switch is togglebutton,when it is
+// open ,check wifi state ,and open wifi ,scan wifi inf.
+    public void onClick(View v ) {
         switch (v.getId()) {
-            case R.id.check_wifi:
-                mWifiAdmin.checkState(MainActivity.this);
+            case R.id.btn_start:
+                Toast.makeText(MainActivity.this,"Connecting...",Toast.LENGTH_LONG).show();
+                //跳转到ControlActivity
+                Intent intent =new Intent(MainActivity.this,ControlActivity.class);
+                //启动
+                startActivity(intent);
                 break;
-            case R.id.open_wifi:
-                mWifiAdmin.openWifi(MainActivity.this);
+            case R.id.tb_switch:
+                tb_switch.setOnCheckedChangeListener(new  CompoundButton.OnCheckedChangeListener(){
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //Toast.makeText(MainActivity.this,"ischecked?"+isChecked, Toast.LENGTH_SHORT).show();
+                        if(isChecked == true){
+                            //向listview中插入数据
+                            //lv_wifi.setAdapter((ListAdapter) adapter);
+                            mWifiAdmin.openWifi(MainActivity.this);
+                            mWifiAdmin.startScan(MainActivity.this);
+                            mWifiList=mWifiAdmin.getWifiList();
+                            if(mWifiList!=null){
+                                mlistView.setAdapter(new MyAdapter(this,mWifiList));
+                                new Utility().setListViewHeightBasedOnChildren(mlistView);
+                            }
+                        }
+                        else{
+                            //清除listview中的内容
+                            lv_wifi.setAdapter(null);
+                            mWifiAdmin.closeWifi(MainActivity.this);
+
+                        }
+                    }
+                });
                 break;
-            case R.id.close_wifi:
-                mWifiAdmin.closeWifi(MainActivity.this);
-                break;
-            case R.id.scan_wifi:
-                mWifiAdmin.startScan(MainActivity.this);
-                mWifiList=mWifiAdmin.getWifiList();
-                if(mWifiList!=null){
-                    mlistView.setAdapter(new MyAdapter(this,mWifiList));
-                    new Utility().setListViewHeightBasedOnChildren(mlistView);
-                }
-                break;
+
+
+//            case R.id.scan_wifi:
+//                mWifiAdmin.startScan(MainActivity.this);
+//                mWifiList=mWifiAdmin.getWifiList();
+//                if(mWifiList!=null){
+//                    mlistView.setAdapter(new MyAdapter(this,mWifiList));
+//                    new Utility().setListViewHeightBasedOnChildren(mlistView);
+//                }
+//                break;
             default:
                 break;
         }
     }
+// set the adapter.want to get the view that every Item
+//    sdasd
+    public  class MyAdapter extends BaseAdapter{
 
-    public class MyAdapter extends BaseAdapter{
         LayoutInflater inflater;
         List<ScanResult> list;
-        public MyAdapter(Context context, List<ScanResult> list){
-            this.inflater=LayoutInflater.from(context);
+        public MyAdapter(CompoundButton.OnCheckedChangeListener context, List<ScanResult> list){
+            this.inflater=LayoutInflater.from((Context) context);
             this.list=list;
         }
         @Override
@@ -167,22 +223,23 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint({ "ViewHolder", "InflateParams" })
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view=null;
-//            view=inflater.inflate(R.layout.activity_main, null);
-//            ScanResult scanResult = list.get(position);
-//
-//            wifi_ssid.setText(scanResult.SSID);
-//            Log.i(TAG, "scanResult.SSID="+scanResult);
-//            level=WifiManager.calculateSignalLevel(scanResult.level,5);
-//            if(scanResult.capabilities.contains("WEP")||scanResult.capabilities.contains("PSK")||
-//                    scanResult.capabilities.contains("EAP"))
-//            wifi_level.setImageLevel(level);
-//            //判断信号强度，显示对应的指示图标
+           View view=null;
+
+            view=inflater.inflate(R.layout.activity_main, null);
+            ScanResult scanResult = list.get(position);
+            //wifi_ssid.setText(scanResult.SSID);
+            //Log.i(TAG, "scanResult.SSID="+scanResult);
+            //level=WifiManager.calculateSignalLevel(scanResult.level,5);
+           // if(scanResult.capabilities.contains("WEP")||scanResult.capabilities.contains("PSK")||
+            //        scanResult.capabilities.contains("EAP"))
+            //wifi_level.setImageLevel(level);
+            //判断信号强度，显示对应的指示图标
             return view;
         }
     }
 
     /*设置listview的高度*/
+    //set the weight of the listview
     public class Utility {
         public void setListViewHeightBasedOnChildren(ListView listView) {
             ListAdapter listAdapter = listView.getAdapter();
@@ -201,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     //监听wifi状态
+    //listen the wifi state.if is connected ,make a toast. in main, check this.
     private BroadcastReceiver mReceiver = new BroadcastReceiver (){
         @Override
         public void onReceive(Context context, Intent intent) {

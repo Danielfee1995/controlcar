@@ -1,65 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.legendpeng.controlcar.MainActivity">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/scan_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="扫描" />
-
-            <Button
-                android:id="@+id/check_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="j" />
-
-            <Button
-                android:id="@+id/wifi_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="通讯" />
-            <!--<ToggleButton-->
-                <!--android:id="@+id/toggleButton3"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="ToggleButton" />-->
-            <Button
-                android:id="@+id/open_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Button" />
-            <Button
-                android:id="@+id/close_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Button" />
-
-        </LinearLayout>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Title"
+        android:textSize="30dp" />
 
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tb_switch"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:text="@string/Wifi"
+        android:textSize="25dp" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="13dp"
+        android:text="@string/Connect" />
 
-    </HorizontalScrollView>
+    <ToggleButton
+        style="@style/MySwitch"
+        android:background="#00000000"
+        android:checked="false"
+        android:textOff="@null"
+        android:textOn="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView2"
+        android:id="@+id/tb_switch" />
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/lv_wifi"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="200dp"
+        android:layout_above="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView3" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/et_appliance"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/YourChoice"
+        android:textSize="15dp" />
 
+    <EditText
+        android:id="@+id/et_appliance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_start"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="27dp"
+        android:focusable="false"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="29dp"
+        android:text="@string/connect"
+        android:id="@+id/btn_start" />
+
+</RelativeLayout>

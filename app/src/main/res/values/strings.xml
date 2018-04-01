@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">controlcar</string>
+
+    <string name="Title">Arduino Car Control</string>
+    <string name="Connect">Connection Select</string>
+    <string name="Wifi">Wi-Fi</string>
+    <string name="YourChoice">Applicance you chose</string>
+    <string name="connect">Start Connectiong !</string>
+    <string name="show">show time!</string>
+    <string name="stop">Abort connection</string>
 </resources>
