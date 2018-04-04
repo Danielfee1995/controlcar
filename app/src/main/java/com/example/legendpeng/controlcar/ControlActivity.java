@@ -1,6 +1,7 @@
 package com.example.legendpeng.controlcar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -27,7 +28,7 @@ public class ControlActivity extends Activity {
         setContentView(R.layout.activity_control);
 
         //初始化按钮和ImageButton
-        btn_abort = (Button)findViewById(R.id.btn_start);
+        btn_abort = (Button)findViewById(R.id.btn_abort);
         ibtn_down = (ImageButton)findViewById(R.id.ib_down);
         ibtn_up = (ImageButton)findViewById(R.id.ib_up);
         ibtn_left = (ImageButton)findViewById(R.id.ib_left);
@@ -38,7 +39,9 @@ public class ControlActivity extends Activity {
         btn_abort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ControlActivity.this,"abort...",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ControlActivity.this, MainActivity.class);
+                //启动
+                startActivity(intent);
             }
         });
 
