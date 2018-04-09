@@ -36,13 +36,15 @@ public class MainActivity extends Activity {
     private ToggleButton tb_switch;
     //初始化button
     private Button btn_start;
-
+    private EditText wifiname;
     private ListView list;
     private WifiAdapter adapter;
     private WiFiAdmin admin;
     private static final int PERMISSION_WIFI_CODE = 1001;
     private static final int PERMISSION_FILE_CODE = 1002;
     private int curPosition = -1;
+    private  String adress;
+    private  String wifinamessid;
 
 
     @Override
@@ -62,8 +64,11 @@ public class MainActivity extends Activity {
             }
         }
 
+        wifiname=(EditText)findViewById(R.id.et_appliance);
         initList();
         setStateListener();
+//        admin.openWifi();
+ //       checkPermission();
 
         //设置ToggleButton监听事件
         tb_switch = (ToggleButton) findViewById(R.id.tb_switch);
@@ -73,13 +78,19 @@ public class MainActivity extends Activity {
                 //Toast.makeText(MainActivity.this,"ischecked?"+isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked == true) {
                     //向listview中插入数据
-//                    initList();
-//                    setStateListener();
+
+                    //list.setAdapter(adapter);
+                    setStateListener();
                     admin.openWifi();
+                    initList();
                     checkPermission();
+
+
                 } else {
                     //清除listview中的内容
                     admin.closeWifi();
+                    list.setAdapter(null);
+
                 }
             }
         });
@@ -89,11 +100,17 @@ public class MainActivity extends Activity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Connecting...", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "Connecting...", Toast.LENGTH_LONG).show();
                 //跳转到ControlActivity
                 Intent intent = new Intent(MainActivity.this, ControlActivity.class);
+                intent.putExtra("wifiname",wifiname.getText());
+                intent.putExtra("adress",adress);
+                intent.putExtra("wifinamessid",wifinamessid);
+
                 //启动
                 startActivity(intent);
+
+
             }
         });
     }
@@ -110,6 +127,9 @@ public class MainActivity extends Activity {
                 curPosition = position;
                 final ScanResult result = adapter.getItem(position);
                 if (admin.getConnectInfo().getSSID().equals("\"" + result.SSID + "\"")) {
+                    adress=result.BSSID.toString();
+                    wifinamessid=result.SSID.toString();
+                    wifiname.setText(result.SSID.toString());
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("是否断开连接？")
                             .setPositiveButton("断开", new DialogInterface.OnClickListener() {
@@ -141,6 +161,9 @@ public class MainActivity extends Activity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         admin.configWifi(result, pwdEt.getText().toString(), security);
                                         admin.connectWifi(admin.isWifiConfig(result.SSID));
+                                        wifiname.setText(result.SSID.toString());
+                                        adress=result.BSSID.toString();
+                                        wifinamessid=result.SSID.toString();
                                     }
                                 })
                                 .setNegativeButton("取消", null)
@@ -152,6 +175,7 @@ public class MainActivity extends Activity {
                 } else {
                     admin.connectWifi(netid);
                 }
+
             }
         });
     }
