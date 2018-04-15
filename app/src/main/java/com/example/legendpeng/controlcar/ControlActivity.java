@@ -47,10 +47,11 @@ public class ControlActivity extends Activity {
     private String iadress;
 
     private  Handler mHandler;
-    private final  int qian=0;
-    private final  int hou=1;
-    private final  int zuo =2;
-    private final  int you=3;
+    private final  int pause=0;
+    private final  int qian=1;
+    private final  int hou=2;
+    private final  int zuo =3;
+    private final  int you=4;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,7 @@ public class ControlActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(ControlActivity.this, MainActivity.class);
                 //启动
+
                 startActivity(intent);
 
             }
@@ -124,9 +126,11 @@ public class ControlActivity extends Activity {
 //                            e.printStackTrace();
 //                        }
 //                        break;
-                        Toast.makeText(ControlActivity.this,"qian",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ControlActivity.this,"qian",Toast.LENGTH_SHORT).show();
                         mHandler.obtainMessage(qian,"1").sendToTarget();
-
+                        ibtn_up.setBackgroundResource(R.drawable.up_pressedplan);
+                        signal.setBackgroundResource(R.drawable.red);
+                        break;
                     case MotionEvent.ACTION_UP:
 //                        try {
 //                            outputStream = socket.getOutputStream();
@@ -136,7 +140,9 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
-                        mHandler.obtainMessage(qian,"5").sendToTarget();
+                        //mHandler.obtainMessage(hou,"1").sendToTarget();
+                        mHandler.obtainMessage(pause,"0").sendToTarget();
+                        signal.setBackgroundResource(R.drawable.green);
                     default:
                         break;
                 }
@@ -157,6 +163,9 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
+                        mHandler.obtainMessage(hou,"2").sendToTarget();
+                        ibtn_down.setBackgroundResource(R.drawable.down_pressedplan);
+                        signal.setBackgroundResource(R.drawable.red);
                         break;
                     case MotionEvent.ACTION_UP:
 //                        try {
@@ -166,6 +175,8 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
+                        mHandler.obtainMessage(pause,"0").sendToTarget();
+                        signal.setBackgroundResource(R.drawable.green);
                     default:
                         break;
                 }
@@ -186,6 +197,9 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
+                        mHandler.obtainMessage(zuo,"3").sendToTarget();
+                        ibtn_left.setBackgroundResource(R.drawable.left_pressedplan);
+                        signal.setBackgroundResource(R.drawable.red);
                         break;
                     case MotionEvent.ACTION_UP:
 //                        try {
@@ -195,6 +209,8 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
+                        mHandler.obtainMessage(pause,"0").sendToTarget();
+                        signal.setBackgroundResource(R.drawable.green);
                     default:
                         break;
                 }
@@ -215,7 +231,10 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
-//                        break;
+                        mHandler.obtainMessage(you,"4").sendToTarget();
+                        ibtn_right.setBackgroundResource(R.drawable.right_pressedplan);
+                        signal.setBackgroundResource(R.drawable.red);
+                        break;
                     case MotionEvent.ACTION_UP:
 //                        try {
 //                            outputStream = socket.getOutputStream();
@@ -224,6 +243,9 @@ public class ControlActivity extends Activity {
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
+                        mHandler.obtainMessage(pause,"0").sendToTarget();
+                        signal.setBackgroundResource(R.drawable.green);
+                        break;
                     default:
                         break;
                 }
@@ -267,7 +289,39 @@ public class ControlActivity extends Activity {
                         case 0:
                             try {
                                 outputStream= finalSocket.getOutputStream();
-                                outputStream.write("on".getBytes());
+                                outputStream.write("0".getBytes());
+                                outputStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        case 1:
+                            try { 
+                                outputStream= finalSocket.getOutputStream();
+                                outputStream.write("1".getBytes());
+                                outputStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        case 2:
+                            try {
+                                outputStream= finalSocket.getOutputStream();
+                                outputStream.write("2".getBytes());
+                                outputStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        case 3:
+                            try {
+                                outputStream= finalSocket.getOutputStream();
+                                outputStream.write("3".getBytes());
+                                outputStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        case 4:
+                            try {
+                                outputStream= finalSocket.getOutputStream();
+                                outputStream.write("4".getBytes());
                                 outputStream.flush();
                             } catch (IOException e) {
                                 e.printStackTrace();

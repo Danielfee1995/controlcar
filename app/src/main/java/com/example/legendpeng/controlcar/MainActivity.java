@@ -79,16 +79,25 @@ public class MainActivity extends Activity {
                 if (isChecked == true) {
                     //向listview中插入数据
 
-                    //list.setAdapter(adapter);
-                    setStateListener();
                     admin.openWifi();
+
+                    list.setAdapter(adapter);
                     initList();
+                    setStateListener();
                     checkPermission();
+
+//
+//                    //list.setAdapter(adapter);
+//                    setStateListener();
+//                    admin.openWifi();
+//                    initList();
+//                    checkPermission();
 
 
                 } else {
                     //清除listview中的内容
                     admin.closeWifi();
+
                     list.setAdapter(null);
 
                 }
@@ -238,6 +247,7 @@ public class MainActivity extends Activity {
             } else {
                 admin.startWifiScan();
                 adapter.addAllWifis(admin.getScanResults());
+                list.setAdapter(adapter);
             }
         } else {
             admin.startWifiScan();
