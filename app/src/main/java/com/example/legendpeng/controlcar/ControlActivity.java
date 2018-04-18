@@ -224,25 +224,13 @@ public class ControlActivity extends Activity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-//                        try {
-//                            outputStream = socket.getOutputStream();
-//                            outputStream.write("3".getBytes());
 //
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
                         mHandler.obtainMessage(you,"4").sendToTarget();
                         ibtn_right.setBackgroundResource(R.drawable.right_pressedplan);
                         signal.setBackgroundResource(R.drawable.red);
                         break;
                     case MotionEvent.ACTION_UP:
-//                        try {
-//                            outputStream = socket.getOutputStream();
-//                            outputStream.write("6".getBytes());
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+//                     
                         mHandler.obtainMessage(pause,"0").sendToTarget();
                         signal.setBackgroundResource(R.drawable.green);
                         break;

@@ -65,9 +65,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="115dp"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginLeft="119dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginTop="33dp"
         android:background="@drawable/upplan" />
         <!--android:src="@drawable/pointer" -->
 
@@ -91,9 +91,9 @@
 
 
         android:layout_alignLeft="@+id/ib_up"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/ib_up"
-        android:layout_below="@+id/ib_up"
-        android:layout_marginTop="26dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/downplan" />
         <!--android:src="@drawable/pointer_down" -->
 
